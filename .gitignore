@@ -1,0 +1,19 @@
+# Java class files
+*.class
+
+# Ignore gradle files
+.gradle/
+build/
+
+# Configuration file (sdk path, etc)
+local.properties
+gradle.properties
+
+# Intellij project files
+*.iml
+/.idea/workspace.xml
+/.idea/libraries
+
+# Mac system files
+.DS_Store
+/captures
