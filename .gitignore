@@ -17,3 +17,6 @@ gradle.properties
 # Mac system files
 .DS_Store
 /captures
+
+#External Folders
+/phpcode
