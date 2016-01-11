@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.codecaine.mpurse.MyWiFiActivity">
     <item
+
         android:id="@+id/atn_direct_enable"
         android:icon="@drawable/ic_action_on_off"
         android:title="P2P On/Off"
@@ -13,4 +14,10 @@
         android:icon="@drawable/ic_action_discover"
         android:title="Discover"
         app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/action_aboutus"
+        android:orderInCategory="100"
+        android:title="@string/about_us"
+        app:showAsAction="never" />
 </menu>

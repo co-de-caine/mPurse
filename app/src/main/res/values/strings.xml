@@ -18,4 +18,8 @@
     <string name="label_me">ME</string>
     <string name="label_peers">PEERS</string>
     <string name="login">Login</string>
+    <string name="title_activity_register">Register</string>
+    <string name="register">Register</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="about_us">About Us</string>
 </resources>
