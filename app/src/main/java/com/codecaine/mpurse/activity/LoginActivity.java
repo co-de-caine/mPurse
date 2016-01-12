@@ -34,9 +34,16 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This activity is for login screen of mPurse.
+ *
+ * @author Deepankar
+ */
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final int MAX_TIMEOUT_MS = 120000;
     private EditText etUsername;
     private EditText etPassword;
     private Button bLogin;
@@ -45,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button bNewUser;
     private ProgressDialog progressDialog;
     private AlertDialog alertDialog;
-    private static final int MAX_TIMEOUT_MS = 120000;
 
     @Override
     protected void onResume() {
@@ -121,11 +127,12 @@ public class LoginActivity extends AppCompatActivity {
                         // User login successful, now store the user in sqlite and shared preference
                         session.setLogin(true);
                         JSONObject user = jsonObject.getJSONObject("user");
+                        String uuid = user.getString("uuid");
                         String name = user.getString("name");
+                        long phoneno = user.getLong("phoneno");
                         String email = user.getString("email");
-                        long phoneNo = user.getLong("phoneno");
-                        //db.addUser(name,email, phoneNo);
-                        //db.close();
+                        db.addUser(uuid, name, phoneno, email);
+                        db.close();
                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(i);
                         LoginActivity.this.finish();
@@ -163,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Posting params to register url
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "login");
-                params.put("regno", username);
+                params.put("username", username);
                 params.put("passHash", passHash);
                 return params;
             }
