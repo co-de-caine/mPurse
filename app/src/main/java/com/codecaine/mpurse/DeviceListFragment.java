@@ -33,6 +33,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.codecaine.mpurse.activity.MyWiFiActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +102,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     /**
      * Array adapter for ListFragment that maintains WifiP2pDevice list.
      */
-    private class WiFiPeerListAdapter extends ArrayAdapter<WifiP2pDevice> {
+    public class WiFiPeerListAdapter extends ArrayAdapter<WifiP2pDevice> {
 
         private List<WifiP2pDevice> items;
 

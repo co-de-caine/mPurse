@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
+import com.codecaine.mpurse.activity.MyWiFiActivity;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;

@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.codecaine.mpurse.MyWiFiActivity"
+    tools:context=".activity.MyWiFiActivity"
     tools:showIn="@layout/wifi_activity">
 
 
@@ -21,39 +21,32 @@
         android:layout_marginTop="30dp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="sans-serif-black"
-            android:gravity="center"
-            android:text="WiFi"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-
-
-
-
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:fontFamily="sans-serif-black"-->
+            <!--android:id="@+id/status"-->
+            <!--android:gravity="center"-->
+            <!--android:text=""-->
+            <!--android:textSize="25sp"-->
+            <!--android:textStyle="bold" />-->
 
         <Button
-            android:id="@+id/start"
+            android:id="@+id/Server"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="Wifi P2P"
+            android:text="Server"
             android:textSize="20sp"
             android:textStyle="bold" />
-
-        <TextView
+        <Button
+            android:id="@+id/Client"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="sans-serif-black"
-            android:id="@+id/status"
-            android:gravity="center"
-            android:text=""
-            android:textSize="25sp"
+            android:layout_height="60dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Client"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <fragment

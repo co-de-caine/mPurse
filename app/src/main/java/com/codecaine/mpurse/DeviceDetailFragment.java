@@ -37,7 +37,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.codecaine.mpurse.DeviceListFragment.DeviceActionListener;
-import com.codecaine.mpurse.MyWiFiActivity;
+import com.codecaine.mpurse.activity.MyWiFiActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
