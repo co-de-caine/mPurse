@@ -3,6 +3,7 @@
     package="com.codecaine.mpurse">
 
     <uses-sdk android:minSdkVersion="16" />
+
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -50,10 +51,14 @@
             android:name=".activity.MyWiFiActivity"
             android:label="@string/title_activity_wifi"
             android:parentActivityName=".activity.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.codecaine.mpurse.activity.HomeActivity" />
+            android:theme="@style/AppTheme.NoActionBar">
+
+
+        </activity>
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.codecaine.mpurse.activity.HomeActivity" />
     </application>
 
 </manifest>

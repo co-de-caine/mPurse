@@ -1,4 +1,4 @@
-package com.codecaine.mpurse.entities;
+package com.codecaine.mpurse.entity;
 
 /**
  * This class includes all the constants used in application

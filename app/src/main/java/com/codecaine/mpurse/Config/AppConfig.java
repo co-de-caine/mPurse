@@ -1,4 +1,4 @@
-package com.codecaine.mpurse.Config;
+package com.codecaine.mpurse.config;
 
 /**
  * Contains the configuration for the app

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.codecaine.mpurse.entities.Constants;
+import com.codecaine.mpurse.entity.Constants;
 
 /**
  * Class for controlling session of logged in users
@@ -14,19 +14,17 @@ import com.codecaine.mpurse.entities.Constants;
  */
 public class SessionManager {
 
-    private static String TAG = SessionManager.class.getSimpleName();
-    public static SessionManager mInstance;
-    private static Context mContext;
-
-    // Shared Preferences editor
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
-
-    // Shared pref mode
-    int PRIVATE_MODE = 0;
     // Shared preferences file name
     private static final String PREF_NAME = Constants.mAppTitle;
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
+    public static SessionManager mInstance;
+    private static String TAG = SessionManager.class.getSimpleName();
+    private static Context mContext;
+    // Shared pref mode
+    int PRIVATE_MODE = 0;
+    // Shared Preferences editor
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
     private SessionManager(Context context) {
         mContext = context;

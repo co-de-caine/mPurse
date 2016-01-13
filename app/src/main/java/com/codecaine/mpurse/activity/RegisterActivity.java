@@ -17,8 +17,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.codecaine.mpurse.Config.AppConfig;
 import com.codecaine.mpurse.R;
+import com.codecaine.mpurse.config.AppConfig;
 import com.codecaine.mpurse.connection.VolleySingleton;
 
 import org.apache.commons.codec.binary.Hex;

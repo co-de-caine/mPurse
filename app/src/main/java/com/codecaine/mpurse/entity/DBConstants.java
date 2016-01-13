@@ -1,4 +1,4 @@
-package com.codecaine.mpurse.entities;
+package com.codecaine.mpurse.entity;
 
 /**
  * Created by Deepankar on 12-01-2016.

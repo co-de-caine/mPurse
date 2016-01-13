@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.codecaine.mpurse.entities.DBConstants;
+import com.codecaine.mpurse.entity.DBConstants;
 
 import java.util.HashMap;
 
