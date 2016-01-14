@@ -16,7 +16,7 @@ import java.util.HashMap;
  *
  * @author Deepankar
  */
-public class SQLiteHandler extends SQLiteOpenHelper{
+public class SQLiteHandler extends SQLiteOpenHelper {
 
     private static final String TAG = SQLiteHandler.class.getSimpleName();
 
@@ -32,6 +32,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DBConstants.CREATE_USER_TABLE);
+        db.execSQL(DBConstants.CREATE_REQUEST_TABLE);
         Log.d(TAG, "Database tables created");
     }
 
@@ -39,18 +40,34 @@ public class SQLiteHandler extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_REQUEST);
         // Create tables again
         onCreate(db);
     }
 
-    public void addUser(String uuid, String name, long phoneno, String email) {
+    public void updateUser(String uuid, String name, long phoneno, String email, double wallet) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put(DBConstants.KEY_UUID, uuid);
         values.put(DBConstants.KEY_NAME, name);
         values.put(DBConstants.KEY_EMAIL, email);
         values.put(DBConstants.KEY_PHONE, phoneno);
+        values.put(DBConstants.KEY_WALLET, wallet);
+        values.put(DBConstants.KEY_UPDATEFLAG, 0);
+        // Updating Row
+        long id = db.update(DBConstants.TABLE_USER, values, null, null);
+        db.close(); // Closing database connection
+        Log.d(TAG, "User details updated into sqlite: " + id);
+    }
+
+    public void addUser(String uuid, String name, long phoneno, String email, double wallet) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBConstants.KEY_UUID, uuid);
+        values.put(DBConstants.KEY_NAME, name);
+        values.put(DBConstants.KEY_EMAIL, email);
+        values.put(DBConstants.KEY_PHONE, phoneno);
+        values.put(DBConstants.KEY_WALLET, wallet);
         // Inserting Row
         long id = db.insert(DBConstants.TABLE_USER, null, values);
         db.close(); // Closing database connection
@@ -73,6 +90,8 @@ public class SQLiteHandler extends SQLiteOpenHelper{
             user.put(DBConstants.KEY_NAME, cursor.getString(1));
             user.put(DBConstants.KEY_EMAIL, cursor.getString(2));
             user.put(DBConstants.KEY_PHONE, cursor.getString(3));
+            user.put(DBConstants.KEY_WALLET, cursor.getString((4)));
+            user.put(DBConstants.KEY_UPDATEFLAG, cursor.getString(((5))));
         }
         cursor.close();
         db.close();
@@ -90,5 +109,34 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         db.delete(DBConstants.TABLE_USER, null, null);
         db.close();
         Log.d(TAG, "Deleted all user info from sqlite");
+    }
+
+    public void addAmountToWallet(double wallet) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBConstants.KEY_WALLET, wallet);
+
+        //TODO Update flag value
+        //values.put(DBConstants.KEY_UPDATEFLAG, 1);
+
+        // Updating Row
+        long id = db.update(DBConstants.TABLE_USER, values, null, null);
+        db.close(); // Closing database connection
+        Log.d(TAG, "Wallet Amount updated into sqlite: " + id);
+
+    }
+
+    public void addRequest(String refid, String recvrphone, String amountReq, int amountFulf, String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBConstants.KEY_REFID, refid);
+        values.put(DBConstants.KEY_RECVPHONE, recvrphone);
+        values.put(DBConstants.KEY_AMTREQ, amountReq);
+        values.put(DBConstants.KEY_AMTFULF, amountFulf);
+        values.put(DBConstants.KEY_STATUS, status);
+        // Inserting Row
+        long id = db.insert(DBConstants.TABLE_REQUEST, null, values);
+        db.close(); // Closing database connection
+        Log.d(TAG, "New request inserted into sqlite: " + id);
     }
 }

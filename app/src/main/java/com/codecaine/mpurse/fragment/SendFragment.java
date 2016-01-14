@@ -11,9 +11,6 @@ import com.codecaine.mpurse.R;
 
 public class SendFragment extends Fragment {
 
-    public SendFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

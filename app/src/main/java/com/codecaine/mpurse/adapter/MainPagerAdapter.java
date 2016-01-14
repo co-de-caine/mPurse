@@ -21,11 +21,11 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment frag = null;
         if (position == 0)
-            frag = new SendFragment();
-        if (position == 1)
-            frag = new RequestFragment();
-        if (position == 2)
             frag = new AddFragment();
+        if (position == 1)
+            frag = new SendFragment();
+        if (position == 2)
+            frag = new RequestFragment();
         return frag;
     }
 
@@ -37,11 +37,11 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         if (position == 0)
-            return "Send";
-        if (position == 1)
-            return "Request";
-        if (position == 2)
             return "Add";
+        if (position == 1)
+            return "Send";
+        if (position == 2)
+            return "Request";
         return null;
     }
 }

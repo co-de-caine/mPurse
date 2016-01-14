@@ -13,7 +13,6 @@ class DB_Functions {
  
     // destructor
     function __destruct() {
-         
     }
  
     /**
@@ -26,7 +25,6 @@ class DB_Functions {
         $salt = sha1(rand());
         $salt = substr($salt, 0, 10);
         $password = base64_encode($passHash . $salt); // encrypted password
-
         $stmt = $this->conn->prepare("INSERT INTO users(uuid, name, phoneno, email, password, salt, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?, NOW(), NOW())");
         $stmt->bind_param("ssisss", uniqid('mp'), $name, $phoneno, $email, $password, $salt);
         $result = $stmt->execute();
@@ -90,6 +88,52 @@ class DB_Functions {
             return false;
         }
     }
+
+    public function requestForMoney($uuid, $amount , $recvr) {
+        $user = NULL;
+        $stmt = $this->conn->prepare("SELECT uuid FROM users WHERE phoneno = ? LIMIT 1");
+        $stmt->bind_param("i",$recvr);
+        if($stmt->execute()) { 
+            $user = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+        }
+        $urid = $user['uuid'];
+        if($urid == NULL)
+            return 'User not found';
+        else {
+            $refid = uniqid('RQ');
+            $tid = uniqid('TR');
+            $stmt = $this->conn->prepare("INSERT INTO transactions(tid,uuid,urid,amt,refid,type,created_at) VALUES(?,?,?,?,?,?,NOW())");
+            $stmt->bind_param("sssdss", $tid, $uuid, $urid, $amount, $refid, 'request');
+            $result = $stmt->execute();
+            $stmt->close();
+            if($result) {
+                $stmt = $this->conn->prepare("INSERT INTO requests(refid,uuid,urid,amtreq,amtfulf,status) VALUES(?,?,?,?,?,?");
+                $stmt->bind_param("sssdds", $refid, $uuid, $urid, $amount, 0.00, 'open');
+                $result = $stmt->execute();
+                $stmt->close();
+                if($result) {
+                    return $refid;
+                }
+                else 
+                    return 'unsuccessful';
+            }
+            else
+                return 'unsuccessful';
+        }
+    }
+    
+    public function updateFlag($phoneno) {
+        $stmt = $this->conn->prepare("UPDATE users SET update_flag, updated_at = NOW() WHERE phoneno = ?");
+        $stmt->bind_param("i", $phoneno);
+        $result = $stmt->execute();
+        $stmt->close();
+        // check for successful store
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }   
+    }
 }
- 
 ?>

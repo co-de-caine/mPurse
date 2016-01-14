@@ -24,6 +24,7 @@ if (isset($_POST['username']) && isset($_POST['passHash'])) {
             $response["user"]["name"] = $user["name"];
             $response["user"]["email"] = $user["email"];
             $response["user"]["phoneno"] = $user["phoneno"];
+            $response["user"]["wallet"] = $user["wallet"];
             echo json_encode($response);
         }
         else {

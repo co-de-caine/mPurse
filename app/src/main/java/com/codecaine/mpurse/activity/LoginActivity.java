@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This activity is for login screen of mPurse.
+ * This activity is for Login screen of mPurse.
  *
  * @author Deepankar
  */
@@ -59,12 +57,75 @@ public class LoginActivity extends AppCompatActivity {
         session = SessionManager.getInstance(getApplicationContext());
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
-            // User is already logged in. Take him to main activity
+            // User is already logged in. Check for updates and take him to main activity
+            checkForUpdates(db.getUserDetails().get("phoneno"));
             Intent intent = new Intent(LoginActivity.this,
                     HomeActivity.class);
             startActivity(intent);
             finish();
         }
+    }
+
+    private void checkForUpdates(final String phoneno) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LOCAL_URL_ISUPDATED, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Check Updates Response: " + response);
+                if (response.equals("true"))
+                    getUpdates(phoneno);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                // TODO Error checking for updates
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("phoneno", phoneno);
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void getUpdates(final String phoneno) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LOCAL_URL_USERUPDATES, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Updates Response: " + response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getString("error").equals("0")) {
+                        JSONObject user = jsonObject.getJSONObject("user");
+                        String uuid = user.getString("uuid");
+                        String name = user.getString("name");
+                        long phoneno = user.getLong("phoneno");
+                        String email = user.getString("email");
+                        double wallet = user.getDouble("wallet");
+                        db.updateUser(uuid, name, phoneno, email, wallet);
+                        db.close();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                //TODO Error getting updates
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("phoneno", phoneno);
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
     @Override
@@ -107,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
         bNewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
     }
@@ -124,14 +185,15 @@ public class LoginActivity extends AppCompatActivity {
                     //Log.e(TAG, jsonObject.toString());
                     if (jsonObject.getString("error").equals("0")) {
                         hideDialog();
-                        // User login successful, now store the user in sqlite and shared preference
+                        // User Login successful, now store the user in sqlite and shared preference
                         session.setLogin(true);
                         JSONObject user = jsonObject.getJSONObject("user");
                         String uuid = user.getString("uuid");
                         String name = user.getString("name");
                         long phoneno = user.getLong("phoneno");
                         String email = user.getString("email");
-                        db.addUser(uuid, name, phoneno, email);
+                        double wallet = user.getDouble("wallet");
+                        db.addUser(uuid, name, phoneno, email, wallet);
                         db.close();
                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(i);
@@ -169,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 // Posting params to register url
                 Map<String, String> params = new HashMap<>();
-                params.put("tag", "login");
+                params.put("tag", "Login");
                 params.put("username", username);
                 params.put("passHash", passHash);
                 return params;
@@ -188,28 +250,5 @@ public class LoginActivity extends AppCompatActivity {
     private void hideDialog() {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
-        if (id == R.id.action_aboutus) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
