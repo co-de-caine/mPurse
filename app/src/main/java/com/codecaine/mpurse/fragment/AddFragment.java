@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.codecaine.mpurse.R;
+import com.codecaine.mpurse.activity.HomeActivity;
 import com.codecaine.mpurse.entity.DBConstants;
 import com.codecaine.mpurse.helper.SQLiteHandler;
 
@@ -43,6 +44,7 @@ public class AddFragment extends Fragment {
                 db.close();
                 etAmountAdd.setText("");
                 Toast.makeText(getContext(), addAmount + " successfullly added!!", Toast.LENGTH_SHORT).show();
+                ((HomeActivity)getActivity()).updateNavDrawerDetails();
             }
         });
         return view;

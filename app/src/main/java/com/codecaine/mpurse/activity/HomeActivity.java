@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -27,7 +25,6 @@ import java.util.HashMap;
 public class HomeActivity extends AppCompatActivity {
 
     private SQLiteHandler db;
-    private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private FloatingActionButton bFab;
@@ -54,7 +51,6 @@ public class HomeActivity extends AppCompatActivity {
         name = (TextView) nav_header.findViewById(R.id.tvName);
         wallet = (TextView) nav_header.findViewById(R.id.tvWalletAmt);
 
-        setupActionBarDrawerToogle();
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(new MainPagerAdapter(
                 getSupportFragmentManager()));
@@ -78,30 +74,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void setupActionBarDrawerToogle() {
-
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                R.string.drawer_open,
-                R.string.drawer_close
-        ) {
-            public void onDrawerClosed(View view) {
-                Snackbar.make(view, R.string.drawer_close, Snackbar.LENGTH_SHORT).show();
-                updateNavDrawerDetails();
-            }
-
-
-            public void onDrawerOpened(View drawerView) {
-                Snackbar.make(drawerView, R.string.drawer_open, Snackbar.LENGTH_SHORT).show();
-                updateNavDrawerDetails();
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-    }
-
-    private void updateNavDrawerDetails() {
+    public void updateNavDrawerDetails() {
         HashMap<String, String> user = db.getUserDetails();
         db.close();
         name.setText(user.get(DBConstants.KEY_NAME));
